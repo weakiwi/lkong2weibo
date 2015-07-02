@@ -1,41 +1,24 @@
 from bs4 import BeautifulSoup
 import urllib
 import urllib2
-from weibo import APIClient
 
-url = 'http://www.yousuu.com/comments/digest'   
+url = 'http://www.yousuu.com/comments/digest' #打开书评网页  
 request = urllib2.Request(url)  
 response = urllib2.urlopen(request)  
 page = response.read() 
 
 soup=BeautifulSoup(page)
-tag=soup.find("div","ys-comments-message")
+tag=soup.find("div","ys-comments-message")#获取指定标签的内容
 
-APP_KEY = '1099528704'   
-APP_SECRET = '326c042825bd4cc73dca4960979aedde'   
-CALLBACK_URL = 'https://api.weibo.com/oauth2/default.html'
+def main():	
+	msg = tag.get_text()
 
+	access_token = '2.00JVt9uBwdV6MB2549560a41PkrEgB'#你的access_token，可以通过http://open.weibo.com/tools/console获取
+	post_data = urllib.urlencode({'access_token' : access_token, 'status' : msg.encode('utf-8') })
 
-def getclient():
-    client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK_URL)
-    auth_url = client.get_authorize_url()
-    f=open("D:/t.txt","a")
-    f.write(auth_url)
-    f.close
-    code = raw_input("input the retured code : ")  
-
-    r = client.request_access_token(code)
-    access_token = r.access_token
-    expires_in = r.expires_in
-
-    client.set_access_token(access_token, expires_in)
-
-    return client
-
-def posttext(client):
-    utext = unicode(tag.get_text().encode('utf-8'), "UTF-8")
-    client.statuses.update.post(status=utext)
+	post_url = 'https://api.weibo.com/2/statuses/update.json'
+	r = urllib2.urlopen(post_url, post_data);
+	print r.read()
 
 if __name__ == '__main__':
-     client = getclient()
-     posttext(client)
+	main()
