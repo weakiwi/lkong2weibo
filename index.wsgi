@@ -14,8 +14,8 @@ def app(environ,start_response):
     if msg==kv.get('msg'):
        return 'old'
     else:
+    	send.main(msg)
+    	kv.replace('msg',msg)
         return 'new'
-    send.main(msg)
-    kv.set('msg',msg)
 
 application = sae.create_wsgi_app(app)
