@@ -4,4 +4,4 @@ version: 1
 cron:
 - description: cron_test
   url: /index.wsgi
-  schedule: "*/10 * * * *"#10分钟刷新脚本一次
+  schedule: "*/5 * * * *"#5分钟刷新脚本一次

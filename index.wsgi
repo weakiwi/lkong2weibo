@@ -25,14 +25,16 @@ msg=tag.get_text()
 def main():
     if msg.encode('utf-8')==bucket.get_object_contents('log.txt'):
         return
-    access_token = 'your_access_token'#你的token
+    access_token = '2.00JVt9uBwdV6MB2549560a41PkrEgB'#你的token
     head={"User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.65 Safari/537.36"}#伪装浏览器
-    post_data = urllib.urlencode({'access_token' : access_token, 'status' : msg.encode('utf-8') },headers=head)
-    post_url = 'https://api.weibo.com/2/statuses/update.json'
+    post_data = urllib.urlencode({'access_token' : access_token, 'status' : msg.encode('utf-8') })
+    post_url = urllib2.Request('https://api.weibo.com/2/statuses/update.json',headers=head)
     r = urllib2.urlopen(post_url, post_data);
     bucket.delete_object('log.txt')
+    debug=r.read()
     bucket.put_object('log.txt', msg.encode('utf-8'))
-    
+    bucket.put_object('debug.txt',debug.encode('utf-8'))
+
 if __name__ == '__main__':
     main()
     
@@ -40,6 +42,7 @@ def app(environ,start_response):
     status = '200 OK'  
     response_headers = [('Content-type', 'text/html; charset=utf-8')]  
     start_response(status, response_headers) 
-    return "GET IT!"
+    print main()
+    return "hello"
 
 application = sae.create_wsgi_app(app)
