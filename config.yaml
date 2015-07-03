@@ -1,7 +1,0 @@
-name: weakiwi
-version: 1
-
-cron:
-- description: cron_test
-  url: /index.wsgi
-  schedule: "*/5 * * * *"#5分钟刷新脚本一次
