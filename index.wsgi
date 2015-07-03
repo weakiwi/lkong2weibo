@@ -21,7 +21,7 @@ kv.replace('newmsg',msg.encode('utf-8'))#将msg存放在新键值中
 def main():
     if kv.get('newmsg')==kv.get('oldmsg'):#如果旧键值和新键值相同，则不发送
         return
-    access_token = '2.00JVt9uBwdV6MB2549560a41PkrEgB'#你的token
+    access_token = 'token'#你的token
     head={"User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.65 Safari/537.36"}#伪装浏览器
     post_data = urllib.urlencode({'access_token' : access_token, 'status' : msg.encode('utf-8') })
     post_url = urllib2.Request('https://api.weibo.com/2/statuses/update.json',headers=head)
