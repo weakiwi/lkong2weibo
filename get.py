@@ -12,4 +12,8 @@ def main():
     soup=BeautifulSoup(page)#交给beautifulsoup处理
     tag=soup.find("div","ys-comments-message")#获取书评内容的内容
     msg=tag.get_text()
-    return msg
+    xode=msg.encode('utf-8')
+    if xode>280:
+        return xode[0:280]
+    else:
+        return xode
