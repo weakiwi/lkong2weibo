@@ -1,6 +1,7 @@
-#coding=utf-8
+﻿#coding=utf-8
 import urllib
 import urllib2
+import re
 from bs4 import BeautifulSoup
 
 def main():
@@ -11,9 +12,13 @@ def main():
     page = response.read()
     soup=BeautifulSoup(page)#交给beautifulsoup处理
     tag=soup.find("div","ys-comments-message")#获取书评内容的内容
+    gradetag=soup.find("span","num2star")
+    grade=gradetag.get_text()
     msg=tag.get_text()
+    url1=soup.find(href=re.compile('/book/'))
+    bkurl='http://www.yousuu.com'+url1.get('href')
     xode=msg.encode('utf-8')
     if xode>280:
-        return xode[0:280]
+        return [xode[0:280],grade,bkurl]
     else:
-        return xode
+        return [xode,grade,bkurl]
